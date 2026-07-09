@@ -20,6 +20,21 @@ namespace IF.Plugins.InMemory
             new Part { PartID = 2, PartNumber = "4310460" },
             new Part { PartID = 3, PartNumber = "4313909"}
         };
+
+
+        public  Part GetMachinesDWForCode(Part currentPart)
+        {
+            if (_Instructions.Any(x => x.PartsInInstruction.Any(x => x == currentPart.PartNumber)))
+            {
+                currentPart.InstructionsForPart = _Instructions.Where(x => x.PartsInInstruction.Contains(currentPart.PartNumber) && x.MachineDW.Contains(pickedDW)).ToList();
+                return currentPart;
+            }
+            else
+            {
+                Console.WriteLine($"Nie znaleziono instrukcji dla kodu {currentPart.PartNumber}");
+            }
+
+        }
         public Task FindInstructionAsync(Instruction instruction)
         {
             Part currentPart = new Part();

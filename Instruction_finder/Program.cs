@@ -2,12 +2,13 @@ using Instruction_finder.Components;
 using IF.UseCase.PlugInInterfaces;
 using IF.UseCase.Interfaces;
 using IF.Plugins.InMemory;
+using IF.UseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Instruction connection
 builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
-builder.Services.AddTransient<IFindInstructionUseCase, IFindInstructionUseCase>();
+builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
 
 
 // Add services to the container.
