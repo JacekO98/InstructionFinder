@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Instruction connection
 builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
 builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
+builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
+builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
 
 
 // Add services to the container.

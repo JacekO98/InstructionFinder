@@ -22,19 +22,7 @@ namespace IF.Plugins.InMemory
         };
 
 
-        public  Part GetMachinesDWForCode(Part currentPart)
-        {
-            if (_Instructions.Any(x => x.PartsInInstruction.Any(x => x == currentPart.PartNumber)))
-            {
-                currentPart.InstructionsForPart = _Instructions.Where(x => x.PartsInInstruction.Contains(currentPart.PartNumber) && x.MachineDW.Contains(pickedDW)).ToList();
-                return currentPart;
-            }
-            else
-            {
-                Console.WriteLine($"Nie znaleziono instrukcji dla kodu {currentPart.PartNumber}");
-            }
 
-        }
         public Task FindInstructionAsync(Instruction instruction)
         {
             Part currentPart = new Part();
@@ -62,6 +50,30 @@ namespace IF.Plugins.InMemory
                 Console.WriteLine(instruction.InstructionName);
             } */
             return Task.CompletedTask;
+        }
+
+        public List<string> CheckIfInstructionExist(Part currentPart)
+        {
+            //Check if any instructions for this part number exist and return list of machines DW which belong to this part number
+
+            List<string> availableDW = _Instructions
+            .Where(i => i.PartsInInstruction.Contains(currentPart.PartNumber))
+            .SelectMany(i => i.MachineDW)
+            .Distinct()
+            .ToList();
+
+            if (!availableDW.Any())
+            {
+                Console.WriteLine($"Nie znaleziono instrukcji dla kodu {currentPart.PartNumber}");
+            }
+
+            return availableDW;
+        }
+
+        public Part CollectInstructionsUseCase(Part currentPart)
+        {
+            currentPart.InstructionsForPart = _Instructions.Where(x => x.PartsInInstruction.Contains(currentPart.PartNumber) && x.MachineDW.Contains(currentPart.PickedDW)).ToList();
+            return currentPart;
         }
     }
 }
