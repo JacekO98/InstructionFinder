@@ -1,0 +1,26 @@
+﻿<div class="input-group">
+
+    <InputText class="form-control"
+               @bind-Value="searchedPartNumber"
+               placeholder="Wpisz numer części" />
+
+    <button class="btn btn-success"
+            @onclick="Search">
+        Search
+    </button>
+
+</div>
+
+@code {
+
+    private string searchedPartNumber { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+    private async Task Search()
+    {
+        await OnSearch.InvokeAsync(searchedPartNumber);
+    }
+
+}

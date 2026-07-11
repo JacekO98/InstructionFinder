@@ -1,0 +1,49 @@
+﻿@inject ICheckIfInstructionExistUseCase CheckIfInstructionExistUseCase
+
+@if (availableDW.Any())
+{
+    <h5>Wybierz maszynę DW</h5>
+
+    @foreach (var dw in availableDW)
+    {
+        <button class="btn btn-outline-primary m-1"
+                @onclick="() => SelectDW(dw)">
+            @dw
+        </button>
+    }
+}
+else if (!string.IsNullOrWhiteSpace(CurrentPart.PartNumber))
+{
+    <p>Brak dostępnych maszyn DW.</p>
+}
+
+@code {
+
+    [Parameter]
+    public Part CurrentPart { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> OnDWSelected { get; set; }
+
+    private List<string> availableDW = new();
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(CurrentPart.PartNumber))
+        {
+            availableDW = CheckIfInstructionExistUseCase.Execute(CurrentPart);
+        }
+        else
+        {
+            availableDW.Clear();
+        }
+    }
+
+    private async Task SelectDW(string dw)
+    {
+        CurrentPart.PickedDW = dw;
+
+        await OnDWSelected.InvokeAsync(dw);
+    }
+
+}

@@ -1,27 +1,23 @@
 ﻿@page "/Instructions"
-<h2>Wyszukiwanie instrukcji</h2>
-<h3>Zeskanuj aktualnie obrabiany numer kodu</h3>
-@* tu jest odniesienie pośrednie działa tylko do plików w tym samym projekcie*@
-@* czyli jak będę chciał ten plik gdzieś dodać do przez ten skrót*@
-<br />
-<i class="bi bi-webcam"></i>
-<br />
-@* powyżej to nagłówek strony*@
-<EditForm Model="instructionForCodeToSearch" FormName="formSearch">
-    <div class="input-group">
-        <InputText class="form-control"
-                   placeholder="Wpisz numer kodu dla którego wyszukujesz instrukcje"
-                   @bind-Value="this.instructionForCodeToSearch">
-        </InputText>
-        <button type="submit" class="btn-success">Search</button>
+@rendermode InteractiveServer 
 
-    </div>
-</EditForm>
+<h3>Wyszukiwanie instrukcji</h3>
+
+<SearchBarComponent OnSearch="SearchPart"/>
+
 <br/>
-<DWListComponent SearchDWFilter="@instructionForCodeToSearch"></DWListComponent>
 
-@code {
-    [SupplyParameterFromForm]
-    private string instructionForCodeToSearch { get; set; } = string.Empty;
+<p>Numer części:</p>
+
+<b>@currentPart.PartNumber</b>
+
+@code{
+
+    private Part currentPart = new();
+
+    private void SearchPart(string partNumber)
+    {
+        currentPart.PartNumber = partNumber;
+    }
 
 }

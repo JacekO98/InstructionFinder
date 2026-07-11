@@ -11,6 +11,6 @@ namespace IF.CoreBusiness
         public int PartID;
         public string PartNumber;
         public string PickedDW;
-        public List<Instruction> InstructionsForPart;
+        public List<Instruction> InstructionsForPart = new();
     }
 }
