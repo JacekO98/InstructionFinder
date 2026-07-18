@@ -4,20 +4,38 @@
 <h3>Wyszukiwanie instrukcji</h3>
 
 <SearchBarComponent OnSearch="SearchPart"/>
+<DWListComponent CurrentPart="currentPart"
+                 OnDWSelected="SearchDW" />
+<br />
+<InstructionsNameComponent CurrentPart="currentPart" OnPDFPartSelected="AssignPDFPath" />
+                            
 
 <br/>
+<p>@currentPart.SelectedPdfPath</p>
+<PDFViewerComponent PdfPath1="currentPart.SelectedPdfPath"
+                    CurrentPart="currentPart" />
 
-<p>Numer części:</p>
 
-<b>@currentPart.PartNumber</b>
+    @code{
 
-@code{
-
-    private Part currentPart = new();
+        private Part currentPart = new();
 
     private void SearchPart(string partNumber)
     {
         currentPart.PartNumber = partNumber;
     }
+
+    private void SearchDW (string DWNumber)
+    {
+        currentPart.PickedDW = DWNumber;
+    }
+
+    private void AssignPDFPath(string PDFPath)
+    {
+        Console.WriteLine(PDFPath);
+        currentPart.SelectedPdfPath = PDFPath;
+    }
+
+    
 
 }

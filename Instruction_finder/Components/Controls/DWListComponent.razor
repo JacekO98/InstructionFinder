@@ -41,7 +41,7 @@ else if (!string.IsNullOrWhiteSpace(CurrentPart.PartNumber))
 
     private async Task SelectDW(string dw)
     {
-        CurrentPart.PickedDW = dw;
+       
 
         await OnDWSelected.InvokeAsync(dw);
     }

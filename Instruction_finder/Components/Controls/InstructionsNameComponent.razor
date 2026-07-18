@@ -1,0 +1,38 @@
+﻿@inject ICollectInstructionsUseCase CollectInstructionsUseCase
+<p>Liczba instrukcji: @CurrentPart1.InstructionsForPart.Count</p>
+
+@foreach (var instruction in CurrentPart1.InstructionsForPart)
+{
+    var pdf = instruction.PdfPath;
+    <button class="btn btn-outline-primary m-1"
+            @onclick="() => SelectPDF(instruction.PdfPath)">
+        @instruction.InstructionName
+        
+     
+    </button>
+}
+
+@code {
+    [Parameter]
+    public Part CurrentPart { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> OnPDFPartSelected { get; set; } = default!;
+
+    private Part CurrentPart1 = new();
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(CurrentPart.PickedDW))
+        {
+            CurrentPart1 = CollectInstructionsUseCase.Execute(CurrentPart);
+        }
+        
+    }
+    private async Task SelectPDF(string pdfPart)
+    {
+        Console.WriteLine("SelectPDF");
+        Console.WriteLine(pdfPart);
+
+        await OnPDFPartSelected.InvokeAsync(pdfPart);
+    }
+}
