@@ -2,11 +2,11 @@
 {
     public class Instruction
     {
-        public int InstructionID;
-        public string InstructionNumber;
-        public string InstructionName;
-        public List<string> MachineDW;
-        public List<string> PartsInInstruction;
-        public string PdfPath;
+        public int InstructionID { get; set; }
+        public string InstructionNumber { get; set; }
+        public string InstructionName { get; set; }
+        public List<string> MachineDW { get; set; }
+        public List<string> PartsInInstruction { get; set; }
+        public string PdfPath { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace IF.Plugins.InMemory
         List<Instruction> _Instructions = new List<Instruction>()
         {
             new Instruction { InstructionID = 1, InstructionNumber = "OMR-D-90-DW0485-IK-5533", InstructionName = "Frezowanie wielowypustu", MachineDW = new List<string> {"DW1204"}, PartsInInstruction = new List<string> {"151F1861", "4310460"}, PdfPath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf"},
-            new Instruction { InstructionID = 2, InstructionNumber = "OMR-D-90-DW0485-IK-5534", InstructionName = "Frezowanie wałka", MachineDW = new List<string> {"DW1204"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCE"},
-            new Instruction { InstructionID = 3, InstructionNumber = "OMR-D-90-DW0485-IK-5535", InstructionName = "Frezowanie korpusu", MachineDW = new List<string> {"DW1205"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCF"},
+            new Instruction { InstructionID = 2, InstructionNumber = "OMR-D-90-DW0485-IK-5534", InstructionName = "Frezowanie wałka", MachineDW = new List<string> {"DW1204"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "PDF/matematyka-2023-czerwiec-egzamin-osmoklasisty-dodatkowy.pdf"},
+            new Instruction { InstructionID = 3, InstructionNumber = "OMR-D-90-DW0485-IK-5535", InstructionName = "Frezowanie korpusu", MachineDW = new List<string> {"DW1205"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "PDF/matematyka-2023-czerwiec-egzamin-osmoklasisty-dodatkowy-odpowiedzi.pdf"},
             new Instruction { InstructionID = 4, InstructionNumber = "OMR-D-90-DW0485-IK-5536", InstructionName = "Frezowanie płyty", MachineDW = new List<string> {"DW1204", "DW1205"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCG"},
             new Instruction { InstructionID = 5, InstructionNumber = "OMR-D-90-DW0485-IK-5537", InstructionName = "Frezowanie wieńca", MachineDW = new List<string> {"DW1204", "DW1206"}, PartsInInstruction = new List<string> { "4310460"}, PdfPath = "ABCH"},
         };
