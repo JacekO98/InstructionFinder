@@ -20,7 +20,7 @@ else
 {
     // Instruction connection
     builder.Services.AddDbContext<IFContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("InstructionMenagement")));
     builder.Services.AddTransient<IInstructionRepository, EfInstructionRepository>();
     builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
     builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
