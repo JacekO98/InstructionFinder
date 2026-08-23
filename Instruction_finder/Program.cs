@@ -3,14 +3,30 @@ using IF.UseCase.PlugInInterfaces;
 using IF.UseCase.Interfaces;
 using IF.Plugins.InMemory;
 using IF.UseCase;
+using Microsoft.EntityFrameworkCore;
+using IF.Plugins.EFCoreSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    // Instruction connection
+    builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
+    builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
+    builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
+    builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
 
-// Instruction connection
-builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
-builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
-builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
-builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
+}
+else
+{
+    // Instruction connection
+    builder.Services.AddDbContext<IFContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddTransient<IInstructionRepository, EfInstructionRepository>();
+    builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
+    builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
+    builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
+}
+
 
 
 // Add services to the container.

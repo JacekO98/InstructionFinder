@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IF.CoreBusiness\IF.CoreBusiness.csproj" />
     <ProjectReference Include="..\IF.Plugins.InMemory\IF.Plugins.InMemory.csproj" />
+    <ProjectReference Include="..\IF.Plugins\IF.Plugins.EFCoreSqlServer\IF.Plugins.EFCoreSqlServer.csproj" />
     <ProjectReference Include="..\IF.UseCase\IF.UseCase.csproj" />
   </ItemGroup>
 

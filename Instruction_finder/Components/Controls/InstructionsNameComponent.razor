@@ -3,9 +3,8 @@
 
 @foreach (var instruction in CurrentPart1.InstructionsForPart)
 {
-    var pdf = instruction.PdfPath;
     <button class="btn btn-outline-primary m-1"
-            @onclick="() => SelectPDF(instruction.PdfPath)">
+            @onclick="() => SelectPDF(instruction.PdfRelativePath)">
         @instruction.InstructionName
         
      

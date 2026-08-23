@@ -1,79 +1,83 @@
-﻿using IF.CoreBusiness;
+﻿
+using IF.CoreBusiness;
 using IF.UseCase.PlugInInterfaces;
 
 namespace IF.Plugins.InMemory
 {
     public class InstructionRepository : IInstructionRepository
     {
-        List<Instruction> _Instructions = new List<Instruction>()
+        private readonly List<Instruction> instructions = new()
         {
-            new Instruction { InstructionID = 1, InstructionNumber = "OMR-D-90-DW0485-IK-5533", InstructionName = "Frezowanie wielowypustu", MachineDW = new List<string> {"DW1204"}, PartsInInstruction = new List<string> {"151F1861", "4310460"}, PdfPath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf"},
-            new Instruction { InstructionID = 2, InstructionNumber = "OMR-D-90-DW0485-IK-5534", InstructionName = "Frezowanie wałka", MachineDW = new List<string> {"DW1204"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCE"},
-            new Instruction { InstructionID = 3, InstructionNumber = "OMR-D-90-DW0485-IK-5535", InstructionName = "Frezowanie korpusu", MachineDW = new List<string> {"DW1205"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCF"},
-            new Instruction { InstructionID = 4, InstructionNumber = "OMR-D-90-DW0485-IK-5536", InstructionName = "Frezowanie płyty", MachineDW = new List<string> {"DW1204", "DW1205"}, PartsInInstruction = new List<string> {"151F1861", "4310460", "4313909"}, PdfPath = "ABCG"},
-            new Instruction { InstructionID = 5, InstructionNumber = "OMR-D-90-DW0485-IK-5537", InstructionName = "Frezowanie wieńca", MachineDW = new List<string> {"DW1204", "DW1206"}, PartsInInstruction = new List<string> { "4310460"}, PdfPath = "ABCH"},
-        };
-
-        List<Part> _parts = new List<Part>()
-        {
-            new Part { PartID = 1, PartNumber = "151F1861" }, 
-            new Part { PartID = 2, PartNumber = "4310460" },
-            new Part { PartID = 3, PartNumber = "4313909"}
-        };
-
-
-
-        public Task FindInstructionAsync(Instruction instruction)
-        {
-            Part currentPart = new Part();
-            currentPart.InstructionsForPart = new List<Instruction>();
-            Console.WriteLine("Podaj numer obrabianego kodu:");
-            string currentPartNumber = Console.ReadLine();
-            currentPart.PartNumber = currentPartNumber.Trim();
-            /// Trzeba dodać sprawdzenie czy kod w ogóle istnieje
-
-            ///Tutaj trzeba będzie dopisać wylistowanie DWmaszyn. zastanowić się czy zrobić to z palca czy poprzez przeiterowanie po dostępnych instrukcjach i wylistowanie DW jakie w nich występują}. Na razie robie to z palca
-            Console.WriteLine("Wybierz DW maszyny której mają dotyczyć instrukcje: DW1204, DW1205");
-            string pickedDW = Console.ReadLine();
-
-            if (_Instructions.Any(x => x.PartsInInstruction.Any(x => x == currentPart.PartNumber)))
+            new Instruction
             {
-                currentPart.InstructionsForPart = _Instructions.Where(x => x.PartsInInstruction.Contains(currentPart.PartNumber) && x.MachineDW.Contains(pickedDW)).ToList();
+                InstructionID = 1,
+                InstructionNumber = "OMR-D-90-DW0485-IK-5533",
+                InstructionName = "Frezowanie wielowypustu",
+                PdfRelativePath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf",
+                Parts = new List<Part> { new() { PartNumber = "151F1861" }, new() { PartNumber = "4310460" } },
+                Machines = new List<Machine> { new() { MachineDW = "DW1204" } }
+            },
+            new Instruction
+            {
+                InstructionID = 2,
+                InstructionNumber = "OMR-D-90-DW0485-IK-5534",
+                InstructionName = "Frezowanie wałka",
+                PdfRelativePath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf",
+                Parts = new List<Part> { new() { PartNumber = "151F1861" }, new() { PartNumber = "4310460" }, new() { PartNumber = "4313909" } },
+                Machines = new List<Machine> { new() { MachineDW = "DW1204" } }
+            },
+            new Instruction
+            {
+                InstructionID = 3,
+                InstructionNumber = "OMR-D-90-DW0485-IK-5535",
+                InstructionName = "Frezowanie korpusu",
+                PdfRelativePath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf",
+                Parts = new List<Part> { new() { PartNumber = "151F1861" }, new() { PartNumber = "4310460" }, new() { PartNumber = "4313909" } },
+                Machines = new List<Machine> { new() { MachineDW = "DW1205" } }
+            },
+            new Instruction
+            {
+                InstructionID = 4,
+                InstructionNumber = "OMR-D-90-DW0485-IK-5536",
+                InstructionName = "Frezowanie płyty",
+                PdfRelativePath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf",
+                Parts = new List<Part> { new() { PartNumber = "151F1861" }, new() { PartNumber = "4310460" }, new() { PartNumber = "4313909" } },
+                Machines = new List<Machine> { new() { MachineDW = "DW1204" }, new() { MachineDW = "DW1205" } }
+            },
+            new Instruction
+            {
+                InstructionID = 5,
+                InstructionNumber = "OMR-D-90-DW0485-IK-5537",
+                InstructionName = "Frezowanie wieńca",
+                PdfRelativePath = "PDF/matematyka-2024-egzamin-osmoklasisty.pdf",
+                Parts = new List<Part> { new() { PartNumber = "4310460" } },
+                Machines = new List<Machine> { new() { MachineDW = "DW1204" }, new() { MachineDW = "DW1206" } }
             }
-            else
-            {
-                Console.WriteLine($"Nie znaleziono instrukcji dla kodu {currentPart.PartNumber}");
-            }
-
-            /* foreach (var instruction in currentPart.InstructionsForPart)
-            {
-                Console.WriteLine(instruction.InstructionName);
-            } */
-            return Task.CompletedTask;
-        }
+        };
 
         public List<string> CheckIfInstructionExist(Part currentPart)
         {
-            //Check if any instructions for this part number exist and return list of machines DW which belong to this part number
-
-            List<string> availableDW = _Instructions
-            .Where(i => i.PartsInInstruction.Contains(currentPart.PartNumber))
-            .SelectMany(i => i.MachineDW)
-            .Distinct()
-            .ToList();
-
-            ///if (!availableDW.Any())
-            ///{
-            ///    Console.WriteLine($"Nie znaleziono instrukcji dla kodu {currentPart.PartNumber}");
-            ///}
-
-            return availableDW;
+            return instructions
+                .Where(instruction => instruction.Parts.Any(part => part.PartNumber == currentPart.PartNumber))
+                .SelectMany(instruction => instruction.Machines)
+                .Select(machine => machine.MachineDW)
+                .Distinct()
+                .ToList();
         }
 
         public Part CollectInstructionsUseCase(Part currentPart)
         {
-            currentPart.InstructionsForPart = _Instructions.Where(x => x.PartsInInstruction.Contains(currentPart.PartNumber) && x.MachineDW.Contains(currentPart.PickedDW)).ToList();
+            currentPart.InstructionsForPart = instructions
+                .Where(instruction => instruction.Parts.Any(part => part.PartNumber == currentPart.PartNumber))
+                .Where(instruction => instruction.Machines.Any(machine => machine.MachineDW == currentPart.PickedDW))
+                .ToList();
             return currentPart;
+        }
+
+        public Task FindInstructionAsync(Instruction instruction)
+        {
+            return Task.CompletedTask;
         }
     }
 }
+
