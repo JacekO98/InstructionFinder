@@ -5,7 +5,8 @@
 }
 else
 {
-    <iframe src="@CurrentPart.SelectedPdfPath"
+    <iframe src="@PdfUrl"
+            @key="PdfUrl"
             width="100%"
             height="800px"
             style="border:none">
@@ -17,4 +18,6 @@ else
     public string PdfPath1 { get; set; } = string.Empty;
     [Parameter]
     public Part CurrentPart { get; set; } = default!;
+
+    private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath1)}";
 }

@@ -11,8 +11,7 @@
                             
 
 <br/>
-<p>@currentPart.SelectedPdfPath</p>
-<PDFViewerComponent PdfPath1="currentPart.SelectedPdfPath"
+<PDFViewerComponent PdfPath1="@currentPart.SelectedPdfPath"
                     CurrentPart="currentPart" />
 
 
@@ -32,7 +31,6 @@
 
     private void AssignPDFPath(string PDFPath)
     {
-        Console.WriteLine(PDFPath);
         currentPart.SelectedPdfPath = PDFPath;
     }
 

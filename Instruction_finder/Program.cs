@@ -9,6 +9,8 @@ using IF.Plugins.EFCoreSqlServer;
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsEnvironment("Testing"))
 {
+    builder.WebHost.UseStaticWebAssets();
+
     // Instruction connection
     builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
     builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
@@ -47,6 +49,28 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.MapGet("/pdf", (HttpContext httpContext, IWebHostEnvironment environment) =>
+{
+    var requestedPath = httpContext.Request.Query["path"].ToString().Trim().Trim('"', '\'');
+    if (string.IsNullOrWhiteSpace(requestedPath))
+    {
+        return Results.BadRequest("Brak ścieżki PDF.");
+    }
+
+    var filePath = Path.IsPathFullyQualified(requestedPath)
+        ? requestedPath
+        : Path.Combine(environment.WebRootPath, requestedPath.TrimStart('~', '/', '\\'));
+
+    if (!File.Exists(filePath) || !string.Equals(Path.GetExtension(filePath), ".pdf", StringComparison.OrdinalIgnoreCase))
+    {
+        Console.WriteLine($"Nie znaleziono pliku PDF: {filePath}");
+        return Results.NotFound();
+    }
+
+    Console.WriteLine($"Serwowanie pliku PDF: {filePath}");
+    return Results.File(filePath, "application/pdf", enableRangeProcessing: true);
+});
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

@@ -19,6 +19,7 @@
     public EventCallback<string> OnPDFPartSelected { get; set; } = default!;
 
     private Part CurrentPart1 = new();
+
     protected override void OnParametersSet()
     {
         if (!string.IsNullOrWhiteSpace(CurrentPart.PickedDW))
@@ -29,9 +30,6 @@
     }
     private async Task SelectPDF(string pdfPart)
     {
-        Console.WriteLine("SelectPDF");
-        Console.WriteLine(pdfPart);
-
         await OnPDFPartSelected.InvokeAsync(pdfPart);
     }
 }

@@ -33,10 +33,6 @@ namespace IF.Plugins.EFCoreSqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstructionNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PdfRelativePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

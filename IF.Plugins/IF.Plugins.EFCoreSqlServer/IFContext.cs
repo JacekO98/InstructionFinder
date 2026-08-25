@@ -28,10 +28,6 @@ public class IFContext : DbContext
             .UsingEntity(j => j.ToTable("InstructionMachine"));
 
         modelBuilder.Entity<Instruction>()
-            .Property(i => i.InstructionNumber)
-            .IsRequired();
-
-        modelBuilder.Entity<Instruction>()
             .Property(i => i.InstructionName)
             .IsRequired();
 
