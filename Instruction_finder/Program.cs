@@ -13,7 +13,6 @@ if (builder.Environment.IsEnvironment("Testing"))
 
     // Instruction connection
     builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
-    builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
     builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
     builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
 
@@ -24,7 +23,6 @@ else
     builder.Services.AddDbContext<IFContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("InstructionMenagement")));
     builder.Services.AddTransient<IInstructionRepository, EfInstructionRepository>();
-    builder.Services.AddTransient<IFindInstructionUseCase, FindInstructionUseCase>();
     builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
     builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
 }

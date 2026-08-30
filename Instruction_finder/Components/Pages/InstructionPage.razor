@@ -1,4 +1,5 @@
-﻿@page "/Instructions"
+﻿@page "/"
+@page "/Instructions"
 @rendermode InteractiveServer 
 
 <h3>Wyszukiwanie instrukcji</h3>
@@ -11,8 +12,7 @@
                             
 
 <br/>
-<PDFViewerComponent PdfPath1="@currentPart.SelectedPdfPath"
-                    CurrentPart="currentPart" />
+<PDFViewerComponent PdfPath="@currentPart.SelectedPdfPath" />
 
 
     @code{

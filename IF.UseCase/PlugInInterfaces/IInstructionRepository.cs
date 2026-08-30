@@ -6,6 +6,6 @@ namespace IF.UseCase.PlugInInterfaces
     {
         List<string> CheckIfInstructionExist(Part currentPart);
         Part CollectInstructionsUseCase(Part currentPart);
-        Task FindInstructionAsync(Instruction instruction);
+        
     }
 }

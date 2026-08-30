@@ -1,7 +1,7 @@
 ﻿
-@if (string.IsNullOrWhiteSpace(PdfPath1))
+@if (string.IsNullOrWhiteSpace(PdfPath))
 {
-    <p>Wybierz instrukcję do wyświetlenia.</p>
+    
 }
 else
 {
@@ -15,9 +15,8 @@ else
 
 @code {
     [Parameter]
-    public string PdfPath1 { get; set; } = string.Empty;
-    [Parameter]
-    public Part CurrentPart { get; set; } = default!;
+    public string PdfPath { get; set; } = string.Empty;
+    
 
-    private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath1)}";
+    private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath)}";
 }

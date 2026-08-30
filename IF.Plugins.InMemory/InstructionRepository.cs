@@ -74,10 +74,7 @@ namespace IF.Plugins.InMemory
             return currentPart;
         }
 
-        public Task FindInstructionAsync(Instruction instruction)
-        {
-            return Task.CompletedTask;
-        }
+        
     }
 }
 
