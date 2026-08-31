@@ -18,5 +18,6 @@ else
     public string PdfPath { get; set; } = string.Empty;
     
 
-    private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath)}";
+    private string PdfUrl => $"/pdf?path={Uri.EscapeDataString($@"\\plbie01as15\Labelprint\Hartownia\InstructionFinder\{PdfPath}.pdf")}";
+    ///private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath)}";
 }
