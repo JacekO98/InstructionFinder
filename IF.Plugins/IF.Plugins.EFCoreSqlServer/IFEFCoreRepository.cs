@@ -41,11 +41,6 @@ public class EfInstructionRepository : IInstructionRepository
         return currentPart;
     }
 
-    public async Task FindInstructionAsync(Instruction instruction)
-    {
-        // tu zwykle nie ma sensu robić kilku rzeczy w repo
-        // albo zostawiasz to tylko jako prostą operację wrzucającą wynik do bazy
-        await Task.CompletedTask;
-    }
+    
 }
 
