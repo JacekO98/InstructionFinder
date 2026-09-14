@@ -1,0 +1,30 @@
+﻿MachineDW;;"USE IF;
+GO
+
+IF OBJECT_ID('dbo.Machines', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Machines
+    (
+        MachineID INT IDENTITY(1,1) NOT NULL,
+        MachineDW NVARCHAR(100) NOT NULL,
+        
+
+        CONSTRAINT PK_Machines PRIMARY KEY (MachineID)
+    );
+END"
+DW01424;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW01424');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW01424');"
+DW0197;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0197');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0197');"
+DW0217;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0217');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0217');"
+DW0218;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0218');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0218');"
+DW0358;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0358');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0358');"
+DW0359;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0359');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0359');"
+DW0422;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0422');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0422');"
+DW0433;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0433');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0433');"
+DW0511;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0511');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0511');"
+DW0563;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0563');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0563');"
+DW0566;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0566');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0566');"
+DW0567;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0567');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0567');"
+DW0568;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0568');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0568');"
+DW0569;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0569');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW0569');"
+DW1424;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW1424');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'DW1424');"
+operacjaręczna;"INSERT INTO dbo.Machines (MachineDW) VALUES (N'operacjaręczna');";"INSERT INTO dbo.Machines (MachineDW) VALUES (N'operacjaręczna');"
