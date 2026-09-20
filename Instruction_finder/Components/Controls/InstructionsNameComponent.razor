@@ -1,14 +1,20 @@
 ﻿@inject ICollectInstructionsUseCase CollectInstructionsUseCase
+@inject ILogger<InstructionsNameComponent> Logger
 
 
-@foreach (var instruction in CurrentPart1.InstructionsForPart)
+@if (!string.IsNullOrWhiteSpace(errorMessage))
 {
-    <button class="btn btn-outline-primary m-1"
-            @onclick="() => SelectPDF(instruction.PdfRelativePath)">
-        @instruction.InstructionName
-        
-     
-    </button>
+    <p class="text-danger">@errorMessage</p>
+}
+else
+{
+    @foreach (var instruction in CurrentPart1.InstructionsForPart)
+    {
+        <button class="btn btn-outline-primary m-1"
+                @onclick="() => SelectPDF(instruction.PdfRelativePath)">
+            @instruction.InstructionName
+        </button>
+    }
 }
 
 @code {
@@ -19,16 +25,29 @@
     public EventCallback<string> OnPDFPartSelected { get; set; } = default!;
 
     private Part CurrentPart1 = new();
+    private string? errorMessage;
 
     protected override void OnParametersSet()
     {
         if (!string.IsNullOrWhiteSpace(CurrentPart.PickedDW))
         {
-            CurrentPart1 = CollectInstructionsUseCase.Execute(CurrentPart);
+            try
+            {
+                errorMessage = null;
+                CurrentPart1 = CollectInstructionsUseCase.Execute(CurrentPart);
+            }
+            catch (Exception exception)
+            {
+                CurrentPart1 = new();
+                var baseException = exception.GetBaseException();
+                errorMessage = $"Nie udało się pobrać instrukcji. Wystąpił problem z bazą danych: {baseException.Message}";
+                Logger.LogError(exception, "Błąd podczas pobierania instrukcji dla części {PartNumber} i maszyny {Machine}", CurrentPart.PartNumber, CurrentPart.PickedDW);
+            }
         }
         else
         {
             CurrentPart1 = new();
+            errorMessage = null;
         }
     }
     private async Task SelectPDF(string pdfPart)

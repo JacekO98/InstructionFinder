@@ -1,6 +1,11 @@
 ﻿@inject ICheckIfInstructionExistUseCase CheckIfInstructionExistUseCase
+@inject ILogger<DWListComponent> Logger
 
-@if (availableDW.Any())
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <p class="text-danger">@errorMessage</p>
+}
+else if (availableDW.Any())
 {
     @foreach (var dw in availableDW)
     {
@@ -24,16 +29,29 @@ else if (!string.IsNullOrWhiteSpace(CurrentPart.PartNumber))
     public EventCallback<string> OnDWSelected { get; set; }
 
     private List<string> availableDW = new();
+    private string? errorMessage;
 
     protected override void OnParametersSet()
     {
         if (!string.IsNullOrWhiteSpace(CurrentPart.PartNumber))
         {
-            availableDW = CheckIfInstructionExistUseCase.Execute(CurrentPart);
+            try
+            {
+                errorMessage = null;
+                availableDW = CheckIfInstructionExistUseCase.Execute(CurrentPart);
+            }
+            catch (Exception exception)
+            {
+                availableDW.Clear();
+                var baseException = exception.GetBaseException();
+                errorMessage = $"Nie udało się wyszukać części. Wystąpił problem z bazą danych: {baseException.Message}";
+                Logger.LogError(exception, "Błąd podczas wyszukiwania części {PartNumber}", CurrentPart.PartNumber);
+            }
         }
         else
         {
             availableDW.Clear();
+            errorMessage = null;
         }
     }
 
