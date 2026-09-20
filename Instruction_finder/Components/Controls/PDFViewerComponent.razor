@@ -1,22 +1,22 @@
 ﻿
 @if (string.IsNullOrWhiteSpace(PdfPath))
 {
-    
+    <div class="pdf-viewer-empty"></div>
 }
 else
 {
-    <iframe src="@PdfUrl"
-            @key="PdfUrl"
-            width="100%"
-            height="800px"
-            style="border:none">
-    </iframe>
+    <div class="pdf-viewer-container">
+        <iframe class="pdf-viewer-frame"
+                src="@PdfUrl"
+                @key="PdfUrl"
+                title="Podgląd instrukcji PDF">
+        </iframe>
+    </div>
 }
 
 @code {
     [Parameter]
     public string PdfPath { get; set; } = string.Empty;
-    
 
     private string PdfUrl => $"/pdf?path={Uri.EscapeDataString($@"C:\Users\jacuu\source\repos\Instruction_finder\testowe_Pdf\{PdfPath}.pdf")}";
     ///private string PdfUrl => $"/pdf?path={Uri.EscapeDataString(PdfPath)}";
