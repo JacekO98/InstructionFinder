@@ -26,7 +26,10 @@
         {
             CurrentPart1 = CollectInstructionsUseCase.Execute(CurrentPart);
         }
-        
+        else
+        {
+            CurrentPart1 = new();
+        }
     }
     private async Task SelectPDF(string pdfPart)
     {
