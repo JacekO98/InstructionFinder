@@ -7,7 +7,7 @@ using IF.CoreBusiness;
 using IF.UseCase.Interfaces;
 using IF.UseCase.PlugInInterfaces;
 
-namespace IF.UseCase
+namespace IF.UseCase.OperatorUseCase
 {
     public class CollectInstructionsUseCase : ICollectInstructionsUseCase
     {
@@ -20,7 +20,7 @@ namespace IF.UseCase
 
         public Part Execute(Part currentPart)
         {
-            return this.instructionRepository.CollectInstructionsUseCase(currentPart);
+            return instructionRepository.CollectInstructionsUseCase(currentPart);
         }
     }
 }

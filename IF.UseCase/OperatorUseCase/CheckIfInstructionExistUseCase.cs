@@ -7,7 +7,7 @@ using IF.UseCase.PlugInInterfaces;
 using IF.CoreBusiness;
 using IF.UseCase.Interfaces;
 
-namespace IF.UseCase
+namespace IF.UseCase.OperatorUseCase
 {
     public class CheckIfInstructionExistUseCase : ICheckIfInstructionExistUseCase
     {
@@ -20,7 +20,7 @@ namespace IF.UseCase
 
         public List<string> Execute(Part currentPart)
         {
-            return this.instructionRepository.CheckIfInstructionExist(currentPart);
+            return instructionRepository.CheckIfInstructionExist(currentPart);
         }
 
     }

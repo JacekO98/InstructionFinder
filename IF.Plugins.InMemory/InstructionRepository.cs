@@ -6,8 +6,25 @@ namespace IF.Plugins.InMemory
 {
     public class InstructionRepository : IInstructionRepository
     {
+        private List<Machine> machines = new()
+        {
+            new Machine { MachineID = 1, MachineDW = "DW1204" },
+            new Machine { MachineID = 2, MachineDW = "DW1205" },
+            new Machine { MachineID = 3, MachineDW = "DW1206" }
+        };
+
+        private List<Part> parts = new()
+        {
+            new Part { PartID = 1, PartNumber = "151F1861" },
+            new Part { PartID = 2, PartNumber = "4310460" },
+            new Part { PartID = 3, PartNumber = "4313909" }
+        };  
+
+
+
         private readonly List<Instruction> instructions = new()
         {
+            
             new Instruction
             {
                 InstructionID = 1,
@@ -55,6 +72,47 @@ namespace IF.Plugins.InMemory
             }
         };
 
+        
+
+        public void AddInstruction(string newInstructionName, string newInstructionParts, string newInstructionMachineDW, string newInstructionPdfRelativePath)
+        {
+            List<string> normalizednewInstructionParts = newInstructionParts
+                .Replace(";", ",")
+                .Replace(".", ",")
+                .ToUpper()
+                .Split(',')
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Distinct()
+                .ToList();
+
+            foreach (var p in normalizednewInstructionParts)
+            {
+                if (!parts.Any(part => part.PartNumber == p))
+                {
+                    parts.Add(new Part
+                    {
+                        PartID = parts.Max(part => part.PartID) + 1,
+                        PartNumber = p
+                    });
+                }
+            }
+
+
+            List<string> newNormalizedInstructionMachineDW = newInstructionMachineDW
+                .Replace(";", ",")
+                .Replace(".", ",")
+                .ToUpper()
+                .Split(',')
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Distinct()
+                .ToList();
+                
+
+
+        }
+
         public List<string> CheckIfInstructionExist(Part currentPart)
         {
             return instructions
@@ -74,7 +132,15 @@ namespace IF.Plugins.InMemory
             return currentPart;
         }
 
-        
+        public Instruction GetInstruction(string pdfRelativePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateInstruction(Instruction instruction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

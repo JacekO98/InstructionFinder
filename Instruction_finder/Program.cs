@@ -2,9 +2,10 @@ using Instruction_finder.Components;
 using IF.UseCase.PlugInInterfaces;
 using IF.UseCase.Interfaces;
 using IF.Plugins.InMemory;
-using IF.UseCase;
 using Microsoft.EntityFrameworkCore;
 using IF.Plugins.EFCoreSqlServer;
+using IF.UseCase.OperatorUseCase;
+using IF.UseCase.PTUseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsEnvironment("Testing"))
@@ -25,6 +26,9 @@ else
     builder.Services.AddTransient<IInstructionRepository, EfInstructionRepository>();
     builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
     builder.Services.AddTransient<ICollectInstructionsUseCase, CollectInstructionsUseCase>();
+    builder.Services.AddTransient<IAddInstructionUseCase, AddInstructionUseCase>();
+    builder.Services.AddTransient<IGetInstructionUseCase, GetInstructionUseCase>();
+    builder.Services.AddTransient<IUpdateInstructionUseCase, UpdateInstructionUseCase>();
 }
 
 
