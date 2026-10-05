@@ -17,7 +17,7 @@ namespace IF.UseCase.PTUseCase
         {
             this.instructionRepository = instructionRepository;
         }
-        public Instruction? Execute(string PdfRelativePath)
+        public Instruction Execute(string PdfRelativePath)
         {
             return instructionRepository.GetInstruction(PdfRelativePath);
         }

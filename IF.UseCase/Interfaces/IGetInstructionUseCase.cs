@@ -4,6 +4,6 @@ namespace IF.UseCase.Interfaces
 {
     public interface IGetInstructionUseCase
     {
-        Instruction? Execute(string PdfRelativePath);
+        Instruction Execute(string PdfRelativePath);
     }
 }

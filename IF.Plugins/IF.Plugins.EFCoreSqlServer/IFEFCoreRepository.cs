@@ -108,17 +108,83 @@ public class EfInstructionRepository : IInstructionRepository
         return currentPart;
     }
 
-    public Instruction? GetInstruction(string pdfRelativePath)
+    public Instruction GetInstruction(string pdfRelativePath)
     {
-        return _context.Instructions
+        string trimPdfRelativePath = pdfRelativePath.Trim();        
+
+        var gotInstruction =  _context.Instructions
             .Include(i => i.Parts)
             .Include(i => i.Machines)
-            .FirstOrDefault(i => i.PdfRelativePath == pdfRelativePath);
-    }
+            .FirstOrDefault(i => i.PdfRelativePath == trimPdfRelativePath);
 
-    public void UpdateInstruction(Instruction instruction)
+        if (gotInstruction == null)
+        {
+            throw new InvalidOperationException($"Instruction with PDF relative path '{pdfRelativePath}' not found.");
+
+        }
+        else
+        {
+            return gotInstruction;
+        }
+    }
+        
+    
+
+    public void UpdateInstruction(string editedInstructionParts, string editedInstructionMachineDW, string pdfRelativePath)
     {
-        throw new NotImplementedException();
+        string trimPdfRelativePath = pdfRelativePath.Trim();
+
+        var editedInstruction = _context.Instructions
+            .Include(i => i.Parts)
+            .Include(i => i.Machines)
+            .FirstOrDefault(i => i.PdfRelativePath == trimPdfRelativePath);
+
+        if (editedInstruction == null)  
+        {
+            throw new InvalidOperationException($"Instruction with PDF relative path '{pdfRelativePath}' not found.");
+
+        }
+
+        List<string> normalizedEditedInstructionParts = editedInstructionParts
+            .Replace(";", ",")
+            .Replace(".", ",")
+            .ToUpper()
+            .Split(',')
+            .Select(x => x.Trim())
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct()
+            .ToList();
+
+        List<string> normalizedEditedInstructionMachineDW = editedInstructionMachineDW
+            .Replace(";", ",")
+            .Replace(".", ",")
+            .ToUpper()
+            .Split(',')
+            .Select(x => x.Trim())
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct()
+            .ToList();
+
+
+
+        List<Part> selectedPartsObjects = _context.Parts.Where(p => normalizedEditedInstructionParts.Contains(p.PartNumber)).ToList();
+        List<Machine> selectedMachinesObjects = _context.Machines.Where(m => normalizedEditedInstructionMachineDW.Contains(m.MachineDW)).ToList();
+
+
+        var missingMachineDW = normalizedEditedInstructionMachineDW.Except(selectedMachinesObjects.Select(x => x.MachineDW), StringComparer.OrdinalIgnoreCase).ToList();
+        var missingParts = normalizedEditedInstructionParts.Except(selectedPartsObjects.Select(x => x.PartNumber), StringComparer.OrdinalIgnoreCase).ToList();
+
+        if (missingMachineDW.Any())
+        {
+            throw new InvalidOperationException($"Nie znaleziono maszyn o numerach DW: {string.Join(",", missingMachineDW)} Upewnij się, że wszystkie wpisane części są dostępne w bazie danych");
+        }
+        if(missingParts.Any())
+        {
+            throw new InvalidOperationException($"Nie znaleziono części o numerach: {string.Join(",",missingParts)} Upewnij się, że wszystkie wpisane części są dostępne w bazie danych");
+        }
+        editedInstruction.Parts = selectedPartsObjects;
+        editedInstruction.Machines = selectedMachinesObjects;
+        _context.SaveChanges();
     }
 }
 
