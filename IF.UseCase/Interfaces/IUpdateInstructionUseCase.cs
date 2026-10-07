@@ -4,6 +4,6 @@ namespace IF.UseCase.Interfaces
 {
     public interface IUpdateInstructionUseCase
     {
-        void Execute(Instruction instruction);
+        void Execute(string editedInstructionParts, string editedInstructionMachineDW, string pdfRelativePath);
     }
 }

@@ -1,0 +1,60 @@
+﻿@page "/AddInstructions"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IAddInstructionUseCase AddInstructionUseCase
+
+<EditForm Model="instructionFormModel" FormName="formInstruction" OnValidSubmit="Save">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+
+    <div class="form-group">
+        <label for="instructionName">Nazwa instrukcji</label>
+        <InputText id="instructionName" class="form-control" @bind-Value="instructionFormModel.InstructionName"></InputText>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <label for="instructionNumber">Numer instrukcji</label>
+        <InputText id="instructionNumber" class="form-control" @bind-Value="instructionFormModel.PdfRelativePath"></InputText>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+        <label for="instructionMachines">Maszyny</label>
+        <InputText id="instructionMachines" class="form-control" @bind-Value="instructionFormModel.InstructionMachines"></InputText>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+        <label for="instructionParts">Części</label>
+        <InputText id="instructionParts" class="form-control" @bind-Value="instructionFormModel.InstructionParts"></InputText>
+    </div>
+
+    <br/>
+
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    &nbsp;
+    <a href="/Instructions" class="btn btn-primary">Anuluj</a>
+
+
+
+
+</EditForm>
+
+
+
+@code {
+
+    private InstructionFormModel instructionFormModel = new InstructionFormModel();
+
+
+    private void Save()
+    {
+        AddInstructionUseCase.Execute(instructionFormModel.InstructionName, instructionFormModel.InstructionParts, instructionFormModel.InstructionMachines, instructionFormModel.PdfRelativePath);
+           
+    }
+
+}

@@ -137,7 +137,7 @@ namespace IF.Plugins.InMemory
             throw new NotImplementedException();
         }
 
-        public void UpdateInstruction(Instruction instruction)
+        public void UpdateInstruction(string editedInstructionParts, string editedInstructionMachineDW, string pdfRelativePath)
         {
             throw new NotImplementedException();
         }

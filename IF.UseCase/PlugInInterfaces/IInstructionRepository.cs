@@ -8,6 +8,6 @@ namespace IF.UseCase.PlugInInterfaces
         List<string> CheckIfInstructionExist(Part currentPart);
         Part CollectInstructionsUseCase(Part currentPart);
         Instruction GetInstruction(string pdfRelativePath);
-        void UpdateInstruction(Instruction instruction);
+        void UpdateInstruction(string editedInstructionParts, string editedInstructionMachineDW, string pdfRelativePath);
     }
 }

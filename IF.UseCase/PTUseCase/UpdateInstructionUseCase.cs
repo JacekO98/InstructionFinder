@@ -16,9 +16,9 @@ namespace IF.UseCase.PTUseCase
         {
             this.instructionRepository = instructionRepository;
         }
-        public void Execute(Instruction instruction)
+        public void Execute(string editedInstructionParts, string editedInstructionMachineDW, string pdfRelativePath)
         {
-            instructionRepository.UpdateInstruction(instruction);
+            instructionRepository.UpdateInstruction(editedInstructionParts, editedInstructionMachineDW, pdfRelativePath);
         }
     }
 }
