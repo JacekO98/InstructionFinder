@@ -43,17 +43,24 @@
 
 
 </EditForm>
+<br />
+@if(successMessage is not null)
+{
+    <div class="alert alert-success" role="status">@successMessage</div>
+}
 
 
 
 @code {
 
     private InstructionFormModel instructionFormModel = new InstructionFormModel();
+    private string? successMessage;
 
 
     private void Save()
     {
         AddInstructionUseCase.Execute(instructionFormModel.InstructionName, instructionFormModel.InstructionParts, instructionFormModel.InstructionMachines, instructionFormModel.PdfRelativePath);
+        successMessage = "Instrukcja została pomyślnie dodana.";
            
     }
 

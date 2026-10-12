@@ -1,0 +1,101 @@
+﻿@page "/UpdateInstruction"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IGetInstructionUseCase GetInstructionUseCase
+@inject IUpdateInstructionUseCase UpdateInstructionUseCase
+
+<EditForm Model="instructionUpdateModel" FormName="formUpdateInstruction" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label for="instructionNumber">Numer instrukcji</label>
+        <InputText id="instructionNumber" class="form-control" @bind-Value="instructionUpdateModel .PdfRelativePath"></InputText>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Szukaj</button>
+    &nbsp;
+    <a href="/Instructions" class="btn btn-primary">Anuluj</a>
+</EditForm>
+<br />
+@if (instruction != null)
+{
+    <EditForm Model="instructionUpdateModel" FormName="formUpdateInstruction" OnValidSubmit="SaveChanges">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+        <div class="form-group">
+            <label for="instructionName">Nazwa instrukcji</label>
+            <InputText id="instructionName"
+            @bind-Value="instruction.InstructionName"
+            class="form-control">
+            </InputText>
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label for="instructionMachinesList">Lista DW</label>
+            <InputText id="instructionMachinesList"
+            @bind-Value="instructionUpdateModel.InstructionMachines"
+            class="form-control">
+            </InputText>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="instructionPartsList">Lista kodów</label>
+            <InputText id="instructionPartsList"
+            @bind-Value="instructionUpdateModel.InstructionParts"
+            class="form-control">
+            </InputText>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        <span>&nbsp;</span>
+        <a href="/Instructions" class="btn btn-primary">Anuluj</a>
+    </EditForm>
+}
+else
+{
+    <p>Wyszukaj numer instrukcji.</p>
+}
+<br />
+@if (successMessage is not null)
+{
+    <div class="alert alert-success" role="status">@successMessage</div>
+}
+
+
+@code {
+    private InstructionUpdateModel instructionUpdateModel = new InstructionUpdateModel();
+    Instruction? instruction = null;
+    private string? successMessage;
+
+
+    private void OnValidSubmit()
+    {
+        instruction = Search();
+
+        instructionUpdateModel.InstructionMachines = string.Join(
+        ", ",
+        instruction.Machines.Select(m => m.MachineDW));
+
+
+        instructionUpdateModel.InstructionParts = string.Join(
+        ", ",
+        instruction.Parts.Select(m => m.PartNumber));
+    }
+
+    private Instruction Search()
+    {
+        return GetInstructionUseCase.Execute(instructionUpdateModel.PdfRelativePath);
+
+    }
+
+    private void SaveChanges()
+    {
+        successMessage = null;
+        UpdateInstructionUseCase.Execute(instructionUpdateModel.InstructionParts, instructionUpdateModel.InstructionMachines, instructionUpdateModel.PdfRelativePath);
+        successMessage = "Instrukcja została pomyślnie zaktualizowana.";
+        instruction = null;
+
+    }
+
+}

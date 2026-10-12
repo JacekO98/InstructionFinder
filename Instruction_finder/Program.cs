@@ -8,10 +8,13 @@ using IF.UseCase.OperatorUseCase;
 using IF.UseCase.PTUseCase;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsEnvironment("Testing"))
+if (!builder.Environment.IsDevelopment())
 {
     builder.WebHost.UseStaticWebAssets();
+}
 
+if (builder.Environment.IsEnvironment("Testing"))
+{
     // Instruction connection
     builder.Services.AddTransient<IInstructionRepository, InstructionRepository>();
     builder.Services.AddTransient<ICheckIfInstructionExistUseCase, CheckIfInstructionExistUseCase>();
