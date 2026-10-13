@@ -2,10 +2,11 @@
 using System.Reflection.Emit;
 using IF.CoreBusiness;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IF.Plugins.EFCoreSqlServer;
 
-public class IFContext : DbContext
+public class IFContext : IdentityDbContext<ApplicationUser>
 {
     public IFContext(DbContextOptions<IFContext> options) : base(options) { }
 

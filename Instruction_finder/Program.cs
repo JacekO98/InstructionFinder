@@ -1,4 +1,4 @@
-using Instruction_finder.Components;
+﻿using Instruction_finder.Components;
 using IF.UseCase.PlugInInterfaces;
 using IF.UseCase.Interfaces;
 using IF.Plugins.InMemory;
@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using IF.Plugins.EFCoreSqlServer;
 using IF.UseCase.OperatorUseCase;
 using IF.UseCase.PTUseCase;
+using Microsoft.AspNetCore.Identity;
+using Instruction_finder.Components.Account;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 if (!builder.Environment.IsDevelopment())
@@ -32,13 +35,26 @@ else
     builder.Services.AddTransient<IAddInstructionUseCase, AddInstructionUseCase>();
     builder.Services.AddTransient<IGetInstructionUseCase, GetInstructionUseCase>();
     builder.Services.AddTransient<IUpdateInstructionUseCase, UpdateInstructionUseCase>();
+    builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<IFContext>()
+    .AddDefaultTokenProviders();
 }
 
-
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<IdentityUserAccessor>();
+
+builder.Services.AddScoped<IdentityRedirectManager>();
+
+builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
 
@@ -53,7 +69,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
+
+
 
 app.MapGet("/pdf", (HttpContext httpContext, IWebHostEnvironment environment) =>
 {
@@ -79,5 +99,7 @@ app.MapGet("/pdf", (HttpContext httpContext, IWebHostEnvironment environment) =>
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapAdditionalIdentityEndpoints();
 
 app.Run();

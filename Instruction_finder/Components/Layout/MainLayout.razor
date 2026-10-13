@@ -8,6 +8,26 @@
     <main>
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+                    <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Account/Manage">Moje konto</NavLink>
+                </div>
+                <form class="nav-item px-3" action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="returnUrl" value="Instructions" />
+                    <button type="submit" class="nav-link">Wyloguj</button>
+                </form>
+            </Authorized>
+            <NotAuthorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Account/Register">Rejestracja</NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Account/Login">Logowanie</NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
         </div>
 
         <article class="content px-4">
